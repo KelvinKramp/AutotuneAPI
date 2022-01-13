@@ -13,7 +13,7 @@
  # save profile local
  mkdir ~/myopenaps
  mkdir ~/myopenaps/settings
- python3 googlecloud-autotune/get_profile.py
+# python3 googlecloud-autotune/get_profile.py -> im going this via the API now
 
  # install dependencies
  echo "STEP 1"
@@ -48,4 +48,7 @@
  cd ~/
 
 # run autotune -> *** THIS IS THE STEP THATS NOT WORKING
-sudo oref0-autotune --dir=~/myopenaps  --ns-host=https://tig-diab.herokuapp.com --start-date=2021-12-30
+source venv/bin/activate
+pip3 install -r requirements.txt
+python3 main.py # -> the API should be able to call oref0-autotune now
+#sudo oref0-autotune --dir=~/myopenaps  --ns-host=https://tig-diab.herokuapp.com --start-date=2021-12-30
