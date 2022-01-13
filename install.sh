@@ -36,12 +36,14 @@
  npm install -g json oref0
  echo "STEP 10"
  sudo apt-get install bc
+ echo "STEP 11"
+ sudo apt-get install jq
 
  # download javascript autotune pacakage and install node
- echo "STEP 11"
+ echo "STEP 12"
  mkdir ~/src
  cd ~/src && git clone -b dev git://github.com/openaps/oref0.git || (cd oref0 && git checkout dev && git pull)
- echo "STEP 12"
+ echo "STEP 13"
  cd ~/src/oref0
  sudo apt-get install -y npm
  sudo npm run global-install
