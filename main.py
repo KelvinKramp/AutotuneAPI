@@ -36,9 +36,11 @@ class API_class(Resource):
 			profile = get_profile(nightscout)
 			if profile:
 				print("Nightscout profile succesfully retreived")
+				return profile, 200
 			else:
 				print("nightscout profile could not be retreived")
-			return profile, 200
+				return 500
+
 
 		# RUN AUTOTUNE
 		elif step == "run-autotune":
@@ -53,12 +55,15 @@ class API_class(Resource):
 				# *** I INCLUDED THIS PART WHEN TRYING TO RUN ON EPIPHMERIAL GCP, IF RUN ON LOCAL THIS IS NOT NECESSARY
 				# BUT INSTEAD RUN https://openaps.readthedocs.io/en/latest/docs/Customize-Iterate/autotune.html from step 1c
 				# command1 = "./install.sh"
-				# os.chdir(ROOT_DIR)
 				# subprocess.call(command1, shell=True)
 
+				# CHECK IF EXISTS AND IF NOT CREATE DIRECTORY ~/myopenaps/settings
+				os.chdir(ROOT_DIR)
 				myopenaps = "/myopenaps"
 				myopenaps = ROOT_DIR + myopenaps
 				checkdir(myopenaps)
+
+				# RUN AUTOTUNE
 				print("starting autotune run")
 				os.chdir(ROOT_DIR)
 				command2 = "oref0-autotune --dir={} --ns-host={} --start-date={}  --end-date={}  > logfile.txt".format(myopenaps, nightscout, start_date, end_date,)
@@ -66,6 +71,9 @@ class API_class(Resource):
 				os.chdir(ROOT_DIR)
 				print("new nightscout profile succesfully created and saved")
 				print("creating recommendations file")
+
+				# CREATE A JSON FILE WITH THE RECOMMENDATIONS AND SEND TO CLIENT
+				os.chdir(ROOT_DIR) # <- I DONT KNOW IF THIS IS THE RIGHT DIRECTORY TO RUN PRINT.SH AND I THINK A CHMOD HAS TO TAKE PLACE
 				command4 = "./print.sh"
 				subprocess.call(command4, shell=True)
 				pay_load = get_recommendations()
@@ -76,7 +84,7 @@ class API_class(Resource):
 
 		# GET RECOMMMENDATIONS
 		elif step =="get-recomm":
-			return "method abondend"
+			return "method abondend, use run-autotune instead"
 
 		# UPLOAD TO NIGTHSCOUT AND ACTIVATE
 		elif step =="upload":

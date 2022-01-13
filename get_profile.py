@@ -229,5 +229,6 @@ def get_profile(nightscout, directory="myopenaps/settings", token=None):
 
 
 if __name__ == "__main__":
-    # test
-    get_profile("https://tig-diab.herokuapp.com/")
+    print("in file get_profile.py at the end add:")
+    print("""get_profile("https://younightscouturl.herokuapp.com/")""")
+    # get_profile("https://nightscoutname.herokuapp.com/")
