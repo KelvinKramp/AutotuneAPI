@@ -50,5 +50,5 @@
 # run autotune -> *** THIS IS THE STEP THATS NOT WORKING
 source venv/bin/activate
 pip3 install -r requirements.txt
-python3 main.py # -> the API should be able to call oref0-autotune now
+# python3 main.py # -> the API should be able to call oref0-autotune now
 #sudo oref0-autotune --dir=~/myopenaps  --ns-host=https://tig-diab.herokuapp.com --start-date=2021-12-30
