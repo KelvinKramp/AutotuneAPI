@@ -4,7 +4,7 @@ import subprocess
 from get_profile import get_profile
 import os
 import shutil
-from ROOT_DIR import ROOT_DIR, checkdir
+from DIRS import ROOT_DIR, checkdir
 import sys
 
 

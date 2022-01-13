@@ -4,13 +4,13 @@ import subprocess
 from get_profile import get_profile
 import os
 import shutil
-from ROOT_DIR import ROOT_DIR, checkdir
+from DIRS import ROOT_DIR, MAIN_DIR, checkdir
 from get_recommendations import get_recommendations
 import json
 from datetime import datetime as dt
 
 # Set variables
-UPLOAD_FOLDER = '/uploads'
+UPLOAD_FOLDER = 'uploads'
 app = Flask(__name__)
 api = Api(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -44,6 +44,11 @@ class API_class(Resource):
 
 		# RUN AUTOTUNE
 		elif step == "run-autotune":
+			# check if necessary files exist
+			directory = "myopenaps/settings"
+			directory = os.path.join(ROOT_DIR, directory)
+			if not os.path.isdir(directory):
+				return "directory path does not exist, check filesystem", 500
 			nightscout = args["--nightscout"]
 			token = args["--token"]
 			start_date = args["--start-date"]
@@ -73,7 +78,7 @@ class API_class(Resource):
 				print("creating recommendations file")
 
 				# CREATE A JSON FILE WITH THE RECOMMENDATIONS AND SEND TO CLIENT
-				os.chdir(ROOT_DIR) # <- I DONT KNOW IF THIS IS THE RIGHT DIRECTORY TO RUN PRINT.SH AND I THINK A CHMOD HAS TO TAKE PLACE
+				os.chdir(MAIN_DIR) # <- I DONT KNOW IF THIS IS THE RIGHT DIRECTORY TO RUN PRINT.SH AND I THINK A CHMOD HAS TO TAKE PLACE
 				command4 = "./print.sh"
 				subprocess.call(command4, shell=True)
 				pay_load = get_recommendations()
@@ -92,11 +97,14 @@ class API_class(Resource):
 			profile = eval(args["--json_profile"])
 			token = args["--token"]
 			try:
-				file_name = "/profile_2_upload.json"
-				file_path = os.path.join(ROOT_DIR, UPLOAD_FOLDER, file_name)
-				with open(file_path, 'w', encoding='utf-8') as f:
+				global UPLOAD_FOLDER
+				full_dir_path = os.path.join(MAIN_DIR, UPLOAD_FOLDER)
+				checkdir(full_dir_path)
+				full_file_path = os.path.join(full_dir_path, "profile_2_upload.json")
+				with open(full_file_path, 'w', encoding='utf-8') as f:
 					json.dump(profile, f, ensure_ascii=False, indent=4)
-				command4 = "oref0-upload-profile {} {} {} --switch".format(UPLOAD_FOLDER+file_name, nightscout, token)
+				rel_file_path = os.path.join(UPLOAD_FOLDER, "profile_2_upload.json")
+				command4 = "oref0-upload-profile {} {} {} --switch".format(rel_file_path, nightscout, token)
 				subprocess.call(command4, shell=True)
 				return profile, 200
 			except Exception as e:

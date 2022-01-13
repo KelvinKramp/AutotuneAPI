@@ -13,7 +13,7 @@ import os.path
 import logging
 import sys
 import requests
-from ROOT_DIR import ROOT_DIR, checkdir
+from DIRS import ROOT_DIR, checkdir
 
 PROFILE_FILES = ['autotune.json', 'profile.json', 'pumpprofile.json']
 TIMED_ENTRIES = ['carbratio', 'sens', 'basal', 'target_low', 'target_high']
@@ -222,10 +222,14 @@ def get_profile(nightscout, directory="myopenaps/settings", token=None):
         nightscout = nightscout[:-1]
     profile = ns_to_oaps(get_current_profile(nightscout, token))
     logging.debug("Checking for directory: %s", directory)
+    print(ROOT_DIR)
+    directory = os.path.join(ROOT_DIR, directory)
     checkdir(directory)
     for profile_file in PROFILE_FILES:
+        print(os.path.join(directory, profile_file))
         with open(os.path.join(directory, profile_file), 'w') as f:
             f.write(json.dumps(profile, indent=4))
+    return profile
 
 
 if __name__ == "__main__":
