@@ -1,5 +1,5 @@
 import requests
-from secret_vars import *
+from variables import *
 
 
 PATH = "get-profile"

@@ -1,0 +1,5 @@
+BASE = "http://baseurl/" # e.g. "http://127.0.0.1:8080/"
+api_url_part = "api/"
+NS_HOST = "https://yournightscouturl.herokuapp.com/"
+start_date = "2021-12-30"
+end_date = "2022-01-04"
