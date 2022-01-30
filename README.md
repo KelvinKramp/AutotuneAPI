@@ -1,6 +1,6 @@
-# OpenAPS Autotune
+# OpenAPS Autotune API
 
-API version of OpenAPS Autotune application.  
+API version of OpenAPS Autotune application. Documentation of the original application can be found over [here](https://openaps.readthedocs.io/en/latest/docs/Customize-Iterate/autotune.html). 
 
 
 ### Installing Project on AWS
